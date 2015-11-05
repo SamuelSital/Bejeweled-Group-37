@@ -20,8 +20,8 @@ public class BoardPanel extends JPanel {
   private Game game;
 
   
-  public BoardPanel(Game ga) {
-    game = ga;
+  public BoardPanel(Game game) {
+    this.game = game;
   }
   
   /**

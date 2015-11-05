@@ -16,30 +16,38 @@ import java.util.List;
 import java.util.Random;
 
 public final class GameLogic {
-  public static Score score;
-  public static Level level;
-  private static Board board;
-  private static Main boardPanel;
-  private static CombinationFinder finder;
-  private static Game game;
+  public Score score;
+  public Level level;
+  private Board board;
+  private Main boardPanel;
+  private CombinationFinder finder;
+  private Game game;
    
+  private static GameLogic instance = new GameLogic();
+  
+  private GameLogic() {}
+  
+  public static GameLogic get() {
+    return instance;
+  }
+
   /**
    * Create a gameLogic object.
-   * @param gm the game
-   * @param brd the board
+   * @param game the game
+   * @param board the board
    * @param main the main
    */
-  public GameLogic(Game gm, Board brd, Main main) {
-    game = gm;
-    board = brd;
-    boardPanel = main;
-    finder = new CombinationFinder(board);
+  public void setReferences(Game game, Board board, Main main) {
+    this.game = game;
+    this.board = board;
+    this.boardPanel = main;
+    this.finder = new CombinationFinder(board);
   }
 
   /**
    * Delete all combinations found on the board.
    */
-  public static void deleteChains() {
+  public void deleteChains() {
     List<Combination> chains = finder.getAllCombinationsOnBoard();
     List<Tile> tiles = new ArrayList<Tile>();
 
@@ -72,7 +80,7 @@ public final class GameLogic {
    * @param tilesToAdd list to add to another list.
    * @param list list where the tiles will be added.
    */
-  public static void addTiles(List<Tile> tilesToAdd, List<Tile> list) {
+  public void addTiles(List<Tile> tilesToAdd, List<Tile> list) {
     for (Tile tile : tilesToAdd) {
       if (!list.contains(tile)) {
         list.add(tile);
@@ -84,7 +92,7 @@ public final class GameLogic {
    * Delete all the tiles in 'tiles' from the board.
    * @param tiles list of tiles to delete.
    */
-  public static void deleteTiles(List<Tile> tiles) {
+  public void deleteTiles(List<Tile> tiles) {
     List<Tile> tilesToDrop = new ArrayList<Tile>();
     for (Tile tile: tiles) {
       board.getTileAt(tile.getX(), tile.getY()).delete = true;
@@ -96,16 +104,16 @@ public final class GameLogic {
         }
       }
     }
-    boardPanel.animations.dropAnimation.setDropTiles(tilesToDrop);
+    boardPanel.animations.setDropTiles(tilesToDrop);
     boardPanel.animations.setType(Animation.Type.REMOVE);
-    boardPanel.animations.removeAnimation.setRemoveTiles(tiles);
+    boardPanel.animations.setRemoveTiles(tiles);
     boardPanel.animations.start();
   }
 
   /**
    * If there are empty spaces, this method 'drops' the tile above this space into this space.
    */
-  public static void dropTiles() {    
+  public void dropTiles() {    
     int level = 0;
     for (int row = board.getWidth() - 1; row >= 0; row--) {
       for (int col = 0; col < board.getWidth(); col++) {
@@ -128,7 +136,7 @@ public final class GameLogic {
     deleteTilesFromBoard();
   }
   
-  private static void deleteTilesFromBoard() {
+  private void deleteTilesFromBoard() {
     Tile tile = null;
     for (int row = board.getWidth() - 1; row >= 0; row--) {
       for (int col = 0; col < board.getWidth(); col++) {
@@ -160,7 +168,7 @@ public final class GameLogic {
    * Finds the type of the special combination and calls the method to generate this special gem.
    * @param combi the combination to find the type of.
    */
-  public static void generateSpecialGem(Combination combi) {
+  public void generateSpecialGem(Combination combi) {
     Logger.log("Generate special gem");
     combi.setNextType();
   }
@@ -170,15 +178,15 @@ public final class GameLogic {
    * @param combi original tiles from the combination.
    * @return list of all tiles.
    */
-  public static List<Tile> getTilesToDeleteSpecialGem(Combination combi) {
+  public List<Tile> getTilesToDeleteSpecialGem(Combination combi) {
     List<Tile> tiles = new ArrayList<Tile>();
     List<Tile> tempTiles = null;
     for (Tile tile: combi.getSpecialTiles()) {
       tempTiles = null;
       if (tile instanceof FlameTile) {
-        tempTiles = SwapHandler.getTilesToDeleteFlame(combi.getSpecialGem());
+        tempTiles = SwapHandler.get().getTilesToDeleteFlame(combi.getSpecialGem());
       } else if (tile instanceof StarTile) {
-        tempTiles = SwapHandler.getTilesToDeleteStar(combi.getSpecialGem());
+        tempTiles = SwapHandler.get().getTilesToDeleteStar(combi.getSpecialGem());
       }
       
       if (tempTiles != null) {
@@ -188,11 +196,11 @@ public final class GameLogic {
     return tiles;
   }
   
-  public static Score getScore() {
+  public Score getScore() {
     return score;
   }
 
-  public static Level getLevel() {
+  public Level getLevel() {
     return level;
   }
   
@@ -200,7 +208,7 @@ public final class GameLogic {
    * Initialize the score and level and set the observer.
    * @param panel the observer to be set.
    */
-  public static void init(Panel panel) {
+  public void init(Panel panel) {
     score = new Score();
     score.registerObserver(panel);
     level = new Level();
@@ -211,7 +219,7 @@ public final class GameLogic {
    * Method for getting an arrayList with two Tiles, which can be switched to form a combination.
    * @return the arraylist with the tiles.
    */
-  public static ArrayList<Tile> getHint() {
+  public ArrayList<Tile> getHint() {
     ArrayList<ArrayList<Tile>> res = new ArrayList<ArrayList<Tile>>();
     ArrayList<Tile> combi;
     Tile t0 = null;
@@ -222,7 +230,7 @@ public final class GameLogic {
       for (int j = 0; j < 7; j++) {
         t0 = board.getTileAt(j, i);
         t1 = board.getTileAt(j + 1, i);
-        if (SwapHandler.createsCombination(t0,t1)) {
+        if (SwapHandler.get().createsCombination(t0,t1)) {
           combi = new ArrayList<Tile>();
           combi.add(t0);
           combi.add(t1);
@@ -236,7 +244,7 @@ public final class GameLogic {
       for (int j = 0; j < 7; j++) {
         t0 = board.getTileAt(i, j);
         t1 = board.getTileAt(i, j + 1);
-        if (SwapHandler.createsCombination(t0,t1)) {
+        if (SwapHandler.get().createsCombination(t0,t1)) {
           combi = new ArrayList<Tile>();
           combi.add(t0);
           combi.add(t1);
@@ -251,5 +259,4 @@ public final class GameLogic {
     } 
     return null;
   }
-  
 }
