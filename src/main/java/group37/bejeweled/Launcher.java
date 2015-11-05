@@ -49,7 +49,7 @@ public class Launcher extends JFrame {
       setSize(800,619);
     }
 
-    setTitle("Bejeweled");
+    setTitle("Bejeweled 2");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLocationRelativeTo(null);
     setVisible(true);    

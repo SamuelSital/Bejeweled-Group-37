@@ -49,7 +49,7 @@ public class Main extends JPanel {
     this.addMouseListener(new MouseListener(this));
     this.addMouseMotionListener(new MouseMotionListener(this));
     
-    GameLogic.init(panel);
+    GameLogic.get().init(panel);
     
     SavedGame.getInstance().setGame(game);
   }
