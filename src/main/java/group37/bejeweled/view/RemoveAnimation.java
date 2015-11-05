@@ -25,7 +25,7 @@ public class RemoveAnimation implements Animation.IAnimation{
       t.translation = new Point(0,0);
       t.size = 0;
     }
-    animation.timer.setDelay(2);
+    animation.timer.setDelay(1);
     animation.timer.start();
   }
 

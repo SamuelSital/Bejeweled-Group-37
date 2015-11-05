@@ -31,7 +31,7 @@ public class DropAnimation implements Animation.IAnimation{
   @Override
   public void performAction() {
     animation.frame++;
-    if (animation.frame > 20) {
+    if (animation.frame > 22) {
       end();
     }
     int speed = 1;
@@ -39,7 +39,6 @@ public class DropAnimation implements Animation.IAnimation{
       tile.updateTranslation(0, speed * tile.getLevel());
     }
     animation.main.repaint();
-    
   }
 
   @Override

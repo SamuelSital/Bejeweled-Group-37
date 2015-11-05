@@ -6,12 +6,12 @@ import main.java.group37.bejeweled.board.StarTile;
 import main.java.group37.bejeweled.board.Tile;
 import main.java.group37.bejeweled.combination.Combination;
 import main.java.group37.bejeweled.combination.Combination.Type;
-import main.java.group37.bejeweled.combination.CombinationFinder;
 import main.java.group37.bejeweled.view.Animation;
 import main.java.group37.bejeweled.view.Main;
 import main.java.group37.bejeweled.view.Panel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -20,7 +20,7 @@ public final class GameLogic {
   public Level level;
   private Board board;
   private Main boardPanel;
-  private CombinationFinder finder;
+  private PatternFinder finder;
   private Game game;
    
   private static GameLogic instance = new GameLogic();
@@ -41,7 +41,7 @@ public final class GameLogic {
     this.game = game;
     this.board = board;
     this.boardPanel = main;
-    this.finder = new CombinationFinder(board);
+    this.finder = new PatternFinder(board);
   }
 
   /**
@@ -73,7 +73,9 @@ public final class GameLogic {
     }
     level.updateLevel(score.getScore());
     
-    boardPanel.animations.resetLevelDropTiles();
+//    boardPanel.animations.resetLevelDropTiles();
+    Arrays.stream(board.board)
+        .forEach(row -> Arrays.stream(row).forEach(tile -> tile.setLevel(0)));
     deleteTiles(tiles);
   }
   

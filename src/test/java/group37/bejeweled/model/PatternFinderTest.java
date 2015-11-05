@@ -8,8 +8,8 @@ import main.java.group37.bejeweled.board.Board;
 import main.java.group37.bejeweled.board.NormalTile;
 import main.java.group37.bejeweled.board.Tile;
 import main.java.group37.bejeweled.combination.Combination;
-import main.java.group37.bejeweled.combination.CombinationFinder;
 import main.java.group37.bejeweled.combination.NormalCombination;
+import main.java.group37.bejeweled.model.PatternFinder;
 
 import org.junit.Test;
 
@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * simple input/output tests for the CombinationFinder class.
+ * simple input/output tests for the PatternFinder class.
  * @author group 37
  *
  */
-public class CombinationFinderTest {
+public class PatternFinderTest {
 
   /**
    * test for the constructor.
@@ -30,7 +30,7 @@ public class CombinationFinderTest {
   public void combinationFinderConstrtest() {
     Tile[][] tiles = new Tile[4][4];
     Board board = new Board(tiles);
-    CombinationFinder cf = new  CombinationFinder(board);
+    PatternFinder cf = new PatternFinder(board);
     assertNotNull(cf);
   }  
 
@@ -41,7 +41,7 @@ public class CombinationFinderTest {
   public void setGetBoardTest() {
     Tile[][] tiles = new Tile[4][4];
     Board board = new Board(tiles);
-    CombinationFinder cf = new  CombinationFinder(board);
+    PatternFinder cf = new  PatternFinder(board);
     assertEquals(cf.getBoard(), board);
     
     Tile[][] newTiles = new Tile[5][4];
@@ -94,7 +94,7 @@ public class CombinationFinderTest {
     Combination x1 = combinationMaker();
     List<Combination> list = new ArrayList<Combination>();
     list.add(x1);
-    CombinationFinder cf = new CombinationFinder(board);
+    PatternFinder cf = new PatternFinder(board);
     assertTrue(list.containsAll(cf.getAllCombinationsOnBoard()));
     assertTrue(cf.getAllCombinationsOnBoard().size() == list.size());
   }

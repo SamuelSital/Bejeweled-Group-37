@@ -6,8 +6,6 @@ import main.java.group37.bejeweled.board.HypercubeTile;
 import main.java.group37.bejeweled.board.StarTile;
 import main.java.group37.bejeweled.board.Tile;
 import main.java.group37.bejeweled.combination.Combination;
-import main.java.group37.bejeweled.combination.Combination.Type;
-import main.java.group37.bejeweled.combination.CombinationFinder;
 import main.java.group37.bejeweled.view.Animation;
 import main.java.group37.bejeweled.view.Main;
 
@@ -28,7 +26,7 @@ public class SwapHandler {
   private Board board;
   public List<Tile> swapTiles;
   private Tile[] swappedTiles;
-  private CombinationFinder finder;
+  private PatternFinder finder;
   private Main main;
   
   private static SwapHandler instance = new SwapHandler();
@@ -50,7 +48,7 @@ public class SwapHandler {
     swapTiles = new ArrayList<Tile>();
     swappedTiles = new Tile[2];
     
-    finder = new CombinationFinder(board);
+    finder = new PatternFinder(board);
   }
   
   /**
@@ -96,29 +94,12 @@ public class SwapHandler {
     Tile t0 = board.getTileAt(swapTiles.get(0).getX(), swapTiles.get(0).getY());
     Tile t1 = board.getTileAt(swapTiles.get(1).getX(), swapTiles.get(1).getY());
 
-    swappedTiles(t0,t1);
-    Combination combiX0 = finder.getSingleCombinationX(t0);
-    Combination combiX1 = finder.getSingleCombinationX(t1);
-    Combination combiY0 = finder.getSingleCombinationY(t0);
-    Combination combiY1 = finder.getSingleCombinationY(t1);
-    swappedTiles(t0,t1);
-
-    Type type = null;
-    if (!(combiX0 == null)) {
-      type = combiX0.getType();
-    } else if (!(combiX1 == null)) {
-      type = combiX1.getType();
-    } else if (!(combiY0 == null)) {
-      type = combiY0.getType();
-    } else if (!(combiY1 == null)) {
-      type = combiY1.getType();
-    }
-
     if (t0 instanceof HypercubeTile || t1 instanceof HypercubeTile) {
       return true;
     }
 
-    if (type == null) {
+    boolean succes = createsCombination(t0,t1);
+    if (!succes) {
       return false;
     }
 
@@ -249,77 +230,18 @@ public class SwapHandler {
   
 
   /**
-   * Check if two tiles can be swapped and
-   * what kind of jewel should be created based on the size of the found sequence.
-   * @param t0 first tile to swap
-   * @param t1 second tile to swap
-   * @return true iff swapping tiles t0 and t1 results in a valid combination.
+   * Check if tile t0 and t1 can create a valid combination.
+   * @param t0 tile 1
+   * @param t1 tile 2
+   * @return true iff a valid combination was made after the tiles where swapped.
    */
   public boolean createsCombination(Tile t0, Tile t1) {
-    boolean res = false;;
-    String c1 = Tile.colors[board.getTileAt(t0.getX(), t0.getY()).getIndex()];
-    String c2 = Tile.colors[board.getTileAt(t1.getX(), t1.getY()).getIndex()];
-    Tile tile = null;
-    String color = null;
-    //swap tiles to look in the rows where the tile will be in case it can be switched
     swappedTiles(t0,t1);
-
-    for (int i = 1; i < 3; i++) {
-      if (i == 1) {
-        tile = t0;
-        color = c1;
-      }
-      if (i == 2) {
-        tile = t1;
-        color = c2;
-      }
-
-      //check x direction
-      int sum = 1;
-      for (int q = tile.getX() + 1; q < board.getHeight(); q++) {
-        if (Tile.colors[board.getTileAt(q, tile.getY()).getIndex()].equals(color)) {
-          sum++;
-        } else {
-          break;
-        }
-      }
-      for (int q = tile.getX() - 1; q >= 0; q--) {
-        if (Tile.colors[board.getTileAt(q, tile.getY()).getIndex()].equals(color)) {
-          sum++;
-        } else {
-          break;
-        }
-      }
-      if (sum > 2 && sum < 6) {
-        res = true;
-      }
-
-      //check y direction
-      sum = 1;
-      for (int q = tile.getY() + 1; q < board.getHeight(); q++) {
-        if (Tile.colors[board.getTileAt(tile.getX(), q).getIndex()].equals(color)) {
-          sum++;
-        } else {
-          break;
-        }
-      }
-      for (int q = tile.getY() - 1; q >= 0; q--) {
-        if (Tile.colors[board.getTileAt(tile.getX(), q).getIndex()].equals(color)) {
-          sum++;
-        } else {
-          break;
-        }
-      }
-
-      if (sum > 2 && sum < 6) {
-        res = true;
-      }
-    }
-    //swap the tiles back to original position
+    Combination comb1 = finder.getSingleCombination(t0);
+    Combination comb2 = finder.getSingleCombination(t1);
     swappedTiles(t0,t1);
-    return res;
+    return comb1 != null || comb2 != null;
   }
-  
 
   /**
    * swap the tiles in the list.

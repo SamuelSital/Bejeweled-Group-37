@@ -27,12 +27,12 @@ public class SavedGame {
   public static final int SIZE = 8;
   public Board board;
 
-  private static SavedGame sg = new SavedGame();
+  private static SavedGame instance = new SavedGame();
 
   private SavedGame() {}
 
   public static SavedGame getInstance() {
-    return sg;
+    return instance;
   }
 
   /**
@@ -47,8 +47,8 @@ public class SavedGame {
     this.game = game;
   }
 
-  public void setBoard(Board bo) {
-    this.board = bo;
+  public void setBoard(Board board) {
+    this.board = board;
   }
 
   /**

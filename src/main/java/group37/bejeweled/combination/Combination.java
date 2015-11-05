@@ -116,11 +116,7 @@ public abstract class Combination {
    * @return true iff a special gem should be created.
    */
   public boolean isSpecialCombination() {
-    boolean res = false;
-    if (!(this.getType() == Type.NORMAL)) {
-      res = true;
-    }
-    return res;
+    return this.getType() != Type.NORMAL;
   }
 
   /**
