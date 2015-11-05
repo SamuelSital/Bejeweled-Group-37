@@ -72,6 +72,8 @@ public final class GameLogic {
       }
     }
     level.updateLevel(score.getScore());
+    
+    boardPanel.animations.resetLevelDropTiles();
     deleteTiles(tiles);
   }
   

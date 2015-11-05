@@ -97,6 +97,15 @@ public class Animation implements ActionListener{
   }
   
   /**
+   * Reset the level of the previous dropping tiles.
+   */
+  public void resetLevelDropTiles() {
+    if (this.dropAnimation.tilesToDrop != null) {
+      this.dropAnimation.tilesToDrop.forEach(tile -> tile.setLevel(0));
+    }
+  }
+  
+  /**
    * Set tiles for the swap animation.
    * @param t0 tile 1. 
    * @param t1 tile 2.

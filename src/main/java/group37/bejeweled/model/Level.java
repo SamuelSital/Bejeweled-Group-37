@@ -39,7 +39,7 @@ public class Level extends Observable {
 
     
     if (!(level == oldlevel)) {
-      System.out.println("level changed!");
+      Logger.log("level changed!");
       notifyObservers(this,level);
     }
   }
