@@ -28,7 +28,7 @@ public class Animation implements ActionListener{
     SWAP,REMOVE,DROP;
   }
 
-  private Type type;
+  protected Type type;
 
   /**
    * Create animation object for animations.
