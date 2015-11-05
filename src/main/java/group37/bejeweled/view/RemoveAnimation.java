@@ -10,7 +10,7 @@ import java.util.List;
  * Class for handling the animation for removing tiles.
  * @author group37
  */
-public class RemoveAnimation implements Animation.IAnimation{
+public class RemoveAnimation implements IAnimation{
   private Animation animation;
   protected List<Tile> tiles;
 
@@ -58,4 +58,13 @@ public class RemoveAnimation implements Animation.IAnimation{
     animation.setType(Type.DROP);
     animation.start();
   }
+
+  /**
+   * Start animation for removing tiles on the board.
+   * @param tiles list of tiles to remove.
+   */
+  public void setRemoveTiles(List<Tile> tiles) {
+    this.tiles = tiles;
+  }
+  
 }

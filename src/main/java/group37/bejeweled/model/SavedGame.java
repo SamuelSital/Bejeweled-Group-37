@@ -29,7 +29,9 @@ public class SavedGame {
 
   private static SavedGame sg = new SavedGame();
 
-  private SavedGame() {}
+  private SavedGame() {
+
+  }
 
   public static SavedGame getInstance() {
     return sg;
@@ -58,8 +60,8 @@ public class SavedGame {
   public synchronized void saveGame(String path) {
     Board board = game.getBoard();
     JSONObject obj = new JSONObject();
-    obj.put("score", GameLogic.get().getScore().getScore());
-    obj.put("level", GameLogic.get().getLevel().getLevel());
+    obj.put("score", GameLogic.getScore().getScore());
+    obj.put("level", GameLogic.getLevel().getLevel());
 
     JSONArray boardArray = new JSONArray();
 
@@ -165,7 +167,7 @@ public class SavedGame {
   private int getScore(JSONObject obj) {
     Long score = (Long) obj.get("score");
     Integer score1 = new Integer(score.intValue());
-    GameLogic.get().getScore().setScore(score1);
+    GameLogic.getScore().setScore(score1);
     Logger.log(" Read Score: " + score);
     return score1;
   }
@@ -173,8 +175,9 @@ public class SavedGame {
   private int getLevel(JSONObject obj) {
     Long level = (Long) obj.get("level");
     Integer level1 = new Integer(level.intValue());
-    GameLogic.get().getLevel().setLevel(level1);
+    GameLogic.getLevel().setLevel(level1);
     Logger.log("Read Level: " + level);
     return level1;
   }
+
 }

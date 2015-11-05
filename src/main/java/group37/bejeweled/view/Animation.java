@@ -1,14 +1,11 @@
 package main.java.group37.bejeweled.view;
 
-import main.java.group37.bejeweled.board.Tile;
 import main.java.group37.bejeweled.model.Game;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.Timer;
-
 
 /**
  * Class that carries out the disappearing of combinations,
@@ -23,15 +20,15 @@ public class Animation implements ActionListener{
 
   private IAnimation state = null;
   
-  private DropAnimation dropAnimation;
-  private SwapAnimation swapAnimation;
-  private RemoveAnimation removeAnimation;
+  public DropAnimation dropAnimation;
+  public SwapAnimation swapAnimation;
+  public RemoveAnimation removeAnimation;
 
   public static enum Type{
     SWAP,REMOVE,DROP;
   }
 
-  private Type type;
+  protected Type type;
 
   /**
    * Create animation object for animations.
@@ -86,39 +83,5 @@ public class Animation implements ActionListener{
     } else if (type == Type.REMOVE) {
       this.state = removeAnimation;
     }
-  }
-  
-  /**
-   * Set tiles for the drop animation.
-   * @param tilesToDrop list with tiles.
-   */
-  public void setDropTiles(List<Tile> tilesToDrop) {
-    this.dropAnimation.tilesToDrop = tilesToDrop;
-  }
-  
-  /**
-   * Set tiles for the swap animation.
-   * @param t0 tile 1. 
-   * @param t1 tile 2.
-   */
-  public void setSwapTiles(Tile t0, Tile t1) {
-    this.swapAnimation.t0 = t0;
-    this.swapAnimation.t1 = t1;
-  }
-
-  /**
-   * Start animation for removing tiles on the board.
-   * @param tiles list of tiles to remove.
-   */
-  public void setRemoveTiles(List<Tile> tiles) {
-    this.removeAnimation.tiles = tiles;
-  }
-  
-  public interface IAnimation{
-    public void start();
-    
-    public void performAction();
-    
-    public void end();
   }
 }

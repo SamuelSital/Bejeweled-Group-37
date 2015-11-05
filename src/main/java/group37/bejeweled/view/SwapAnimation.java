@@ -9,7 +9,7 @@ import main.java.group37.bejeweled.model.SwapHandler;
  * Class for handing the swap animation of two tiles.
  * @author group37
  */
-public class SwapAnimation implements Animation.IAnimation{
+public class SwapAnimation implements IAnimation{
   protected Tile t0;
   protected Tile t1;
   private Animation animation;
@@ -61,13 +61,24 @@ public class SwapAnimation implements Animation.IAnimation{
 
     t0.resetD();
     t1.resetD();
-    SwapHandler.get().swappedTiles(t0,t1);
+    SwapHandler.swappedTiles(t0,t1);
     if (t0 instanceof HypercubeTile) {
-      GameLogic.get().deleteTiles(SwapHandler.get().getTilesToDeleteHypercube(t1,t0));
+      GameLogic.deleteTiles(SwapHandler.getTilesToDeleteHypercube(t1,t0));
     } else if (t1 instanceof HypercubeTile) {
-      GameLogic.get().deleteTiles(SwapHandler.get().getTilesToDeleteHypercube(t0,t1));
+      GameLogic.deleteTiles(SwapHandler.getTilesToDeleteHypercube(t0,t1));
     } else {
-      GameLogic.get().deleteChains();
+      GameLogic.deleteChains();
     }
   }
+  
+  /**
+   * Set tiles for the swap animation.
+   * @param t0 tile 1. 
+   * @param t1 tile 2.
+   */
+  public void setTiles(Tile t0, Tile t1) {
+    this.t0 = t0;
+    this.t1 = t1;
+  }
+
 }

@@ -34,7 +34,7 @@ public class MouseMotionListener extends MouseAdapter{
       if (!main.getGame().getBoard().validBorders(col, row)) {
         return;
       }
-      SwapHandler.get().addTile(loc);
+      SwapHandler.addTile(loc);
     }
   }
 

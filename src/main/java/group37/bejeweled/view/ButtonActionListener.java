@@ -66,7 +66,7 @@ public class ButtonActionListener implements ActionListener{
    * This method handles the action taken when the hint button is clicked.
    */
   public void handleHint() {
-    ArrayList<Tile> hint = GameLogic.get().getHint();
+    ArrayList<Tile> hint = GameLogic.getHint();
     if (!(hint == null)) {
       panel.main.setFocusHint(hint.get(0).getLoc(), hint.get(1).getLoc());
     }

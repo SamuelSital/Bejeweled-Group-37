@@ -10,7 +10,7 @@ import java.util.List;
  * Class for handling the animation for droping the tiles.
  * @author group37
  */
-public class DropAnimation implements Animation.IAnimation{
+public class DropAnimation implements IAnimation{
   
   protected List<Tile> tilesToDrop;
   private Animation animation;
@@ -48,9 +48,17 @@ public class DropAnimation implements Animation.IAnimation{
     animation.timer.stop();
     animation.frame = 0;
 
-    GameLogic.get().dropTiles();
+    GameLogic.dropTiles();
     if (!animation.game.possibleMove()) {
       animation.main.getStatusPanel().endGame();
     }
+  }
+  
+  /**
+   * Set tiles for the drop animation.
+   * @param tilesToDrop list with tiles.
+   */
+  public void setDropTiles(List<Tile> tilesToDrop) {
+    this.tilesToDrop = tilesToDrop;
   }
 }

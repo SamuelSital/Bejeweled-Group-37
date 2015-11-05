@@ -29,10 +29,8 @@ public class Game {
     this.board = new Board(new Tile[SIZE][SIZE]);
     generateRandomBoard();
     
-//    new GameLogic(this, board, main);    
-//    new SwapHandler(board, main);
-    GameLogic.get().setReferences(this, board, main);
-    SwapHandler.get().setRefrences(board, main);
+    new GameLogic(this, board, main);    
+    new SwapHandler(board, main);
   }
 
   /**
@@ -141,7 +139,7 @@ public class Game {
           return true;
         }
         if (!possiblemove) { 
-          possiblemove = SwapHandler.get().createsCombination(t0,t1);
+          possiblemove = SwapHandler.createsCombination(t0,t1);
         }
       }
     }
@@ -152,7 +150,7 @@ public class Game {
         t0 = board.getTileAt(i, j);
         t1 = board.getTileAt(i, j + 1);
         if (!possiblemove) {
-          possiblemove = SwapHandler.get().createsCombination(t0,t1);
+          possiblemove = SwapHandler.createsCombination(t0,t1);
         }
       }
     }
@@ -174,4 +172,5 @@ public class Game {
   public void setBoard(Board bo) {
     this.board = bo;
   }
+  
 }
