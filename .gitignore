@@ -1,7 +1,0 @@
-/bin/
-/target/
-log.txt
-values.json
-.gitignore
-*.json
-*.class

@@ -23,6 +23,7 @@ public class SwapAnimation implements Animation.IAnimation{
     animation.timer.setDelay(10);
     animation.timer.start();
   }
+  
 
   @Override
   public void performAction() {
