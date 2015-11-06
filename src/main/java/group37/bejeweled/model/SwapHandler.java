@@ -98,8 +98,7 @@ public class SwapHandler {
       return true;
     }
 
-    boolean succes = createsCombination(t0,t1);
-    if (!succes) {
+    if (!createsCombination(t0,t1)) {
       return false;
     }
 

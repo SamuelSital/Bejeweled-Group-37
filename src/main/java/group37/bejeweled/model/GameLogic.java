@@ -99,8 +99,8 @@ public final class GameLogic {
   public void deleteTiles(List<Tile> tiles) {
     List<Tile> tilesToDrop = new ArrayList<Tile>();
     for (Tile tile: tiles) {
-      board.getTileAt(tile.getX(), tile.getY()).delete = true;
       Logger.log("Delete Tile: " + tile);
+      board.getTileAt(tile.getX(), tile.getY()).delete = true;
       if (tile.getNextType() == Type.NORMAL) {
         for (int i = tile.getY() - 1; i >= 0; i--) {
           board.getTileAt(tile.getX(), i).increaseLevel();
@@ -188,9 +188,9 @@ public final class GameLogic {
     for (Tile tile: combi.getSpecialTiles()) {
       tempTiles = null;
       if (tile instanceof FlameTile) {
-        tempTiles = SwapHandler.get().getTilesToDeleteFlame(combi.getSpecialGem());
+        tempTiles = SwapHandler.get().getTilesToDeleteFlame(tile);
       } else if (tile instanceof StarTile) {
-        tempTiles = SwapHandler.get().getTilesToDeleteStar(combi.getSpecialGem());
+        tempTiles = SwapHandler.get().getTilesToDeleteStar(tile);
       }
       
       if (tempTiles != null) {
